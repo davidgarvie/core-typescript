@@ -48,9 +48,10 @@ function groupInventoryByItem(
 
 function getDescription(itemRecord: ItemRecord): string {
   const firstShelf = itemRecord.shelves[0]
-  return `We have ${itemRecord.total.toString()} ${
-    itemRecord.item
-  }(s). You can find some on shelf ${firstShelf.toString()}.`
+  if (firstShelf) {
+    return `We have ${itemRecord.total.toString()} ${itemRecord.item}(s). You can find some on shelf ${firstShelf.toString()}.`
+  } 
+  return `We have ${itemRecord.total.toString()} ${itemRecord.item}(s). You can find some on the counter.`
 }
 
 const itemRecords = groupInventoryByItem(inventoryRecords)

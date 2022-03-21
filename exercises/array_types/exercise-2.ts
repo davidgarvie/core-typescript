@@ -1,6 +1,13 @@
 export {} // empty export to ensure the compiler treats this file as a module
 
-type ItemRecord = { item: string; shelves: number[]; total: number }
+// Readonly only applies to the level that you have specififed
+// does not apply to child properties
+
+// Readonly<{...}>
+// will make all the keys in the object readonly. 
+// In our current example this would not have caught the bug because the read only specification would not apply to the items in the shelves list 
+
+type ItemRecord = { item: string, shelves: readonly number[], total: number }
 
 const itemRecords: ItemRecord[] = [
   { item: "Apple", total: 16, shelves: [4, 6] },
@@ -15,8 +22,7 @@ const itemRecords: ItemRecord[] = [
 function getStockedShelves(itemRecords: ItemRecord[]): number[] {
   const stockedShelves: number[] = []
   for (const itemRecord of itemRecords) {
-    let shelf
-    while ((shelf = itemRecord.shelves.pop())) {
+    for (const shelf of itemRecord.shelves) {
       if (!stockedShelves.includes(shelf)) {
         stockedShelves.push(shelf)
       }
