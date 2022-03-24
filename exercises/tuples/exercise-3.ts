@@ -25,23 +25,17 @@ type Fruit =
   | "Tamarillo"
   | "Watermelon"
 
-type OriginList = {
-  Africa: Fruit[]
-  Asia: Fruit[]
-  Australia: Fruit[]
-  Europe: Fruit[]
-  "North America": Fruit[]
-  "South America": Fruit[]
-}
+type OriginList = [Origin, ...Fruit[]];
 
-const origins: OriginList = {
-  Africa: ["Pineapple", "Watermelon"],
-  Asia: ["Apple", "Banana", "Orange"],
-  Australia: ["Quandong", "Riberry"],
-  Europe: ["Peach", "Pear"],
-  "North America": ["Blueberry", "Cranberry"],
-  "South America": ["Guava", "Tamarillo"],
-}
+const origins: OriginList[] = [
+  ['Africa', 'Pineapple', 'Watermelon'],
+  ['Asia', 'Apple', 'Banana', 'Orange'],
+  ['Australia', 'Quandong', 'Riberry'],
+  ['Europe', 'Peach', 'Pear'],
+  ['North America', 'Blueberry', 'Cranberry'],
+  ['South America', 'Guava', 'Tamarillo']
+]
+
 
 type ItemRecord = { fruit: Fruit; shelves: number[]; total: number }
 
@@ -61,13 +55,16 @@ function getDescription(itemRecord: ItemRecord): string {
   )}`
 }
 
-function getOrigin(fruit: Fruit): string {
-  for (const origin in origins) {
-    if (origin.includes(fruit)) {
-      return origin
-    }
-  }
-  return "unknown origin"
+function getOrigin (fruit: Fruit): Origin {
+  const origin = origins.find(origin => origin.includes(fruit));
+  // if (typeof origin !== 'undefined') {
+  //   return origin[0];
+  // }
+  // return 'unknown origin'
+
+  // nicer nullish operator
+  return origin?.[0] ?? "unknown origin"
+
 }
 
 for (const itemRecord of itemRecords) {

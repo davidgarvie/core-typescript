@@ -12,14 +12,31 @@ const itemRecords: ItemRecord[] = [
   { item: "Watermelon", total: 2, shelves: [2] },
 ]
 
-function getDescription(itemRecord: ItemRecord): string {
-  const description = `We have ${itemRecord.total} ${
-    itemRecord.item
-  }(s) on shelves ${itemRecord.shelves.join(", ")}`
-  return description
+function getDescription (itemRecord: ItemRecord, threshold: number): [description: string, warning?: string] {
+  const description = `We have ${itemRecord.total} ${itemRecord.item}(s) on shelves ${itemRecord.shelves.join(', ')}`
+  
+  // let warning;
+  // if (itemRecord.total < (threshold / 2)) {
+  //   warning = `We need to restock ${itemRecord.item} urgently!`
+  // } else if (itemRecord.total < threshold) {
+  //   warning = `We need to restock ${itemRecord.item} soon.`
+  // }
+
+  if (itemRecord.total < (threshold / 2)) {
+    return [description, `We need to restock ${itemRecord.item} urgently!`]
+  }
+  
+  if (itemRecord.total < threshold) {
+   return [description, `We need to restock ${itemRecord.item} soon.`]
+  }
+
+  return [description]
 }
 
 for (const itemRecord of itemRecords) {
-  const description = getDescription(itemRecord)
+  const [description, warning] = getDescription(itemRecord, 10)
   console.log(description)
+  if (typeof warning !== 'undefined') {
+    console.log(warning);
+  }
 }

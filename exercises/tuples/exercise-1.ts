@@ -19,25 +19,41 @@ const inventoryRecords: InventoryRecord[] = [
   { item: "Mangosteen", shelf: 4, amount: 4 },
 ]
 
-function getTotal(inventoryRecords: InventoryRecord[]): number {
-  let total = 0
-  for (const inventoryRecord of inventoryRecords) {
-    total += inventoryRecord.amount
-  }
-  return total
-}
+// original functions 
 
-function getShelves(inventoryRecords: InventoryRecord[]): number[] {
+// function getTotal (inventoryRecords: InventoryRecord[]): number {
+//   let total = 0
+//   for (const inventoryRecord of inventoryRecords) {
+//     total += inventoryRecord.amount
+//   }
+//   return total
+// }
+
+// function getShelves (inventoryRecords: InventoryRecord[]): number[] {
+//   let shelves: number[] = []
+//   for (const inventoryRecord of inventoryRecords) {
+//     if (!shelves.includes(inventoryRecord.shelf)) {
+//       shelves.push(inventoryRecord.shelf)
+//     }
+//   }
+//   return shelves
+// }
+
+
+// Note, the labels are optional and just for documentation
+// Labels are all or nothing - I get an error if I don't include the shelves label
+function getTotalAndShelves (inventoryRecords: InventoryRecord[]): [total: number, shelves: number[]] {
+  let total = 0
   let shelves: number[] = []
   for (const inventoryRecord of inventoryRecords) {
+    total += inventoryRecord.amount
     if (!shelves.includes(inventoryRecord.shelf)) {
       shelves.push(inventoryRecord.shelf)
     }
   }
-  return shelves
+  return [total, shelves]
 }
 
-const total = getTotal(inventoryRecords)
-const shelves = getShelves(inventoryRecords)
+const [total, shelves] = getTotalAndShelves(inventoryRecords)
 
 console.log(`We have ${total} item(s) on shelves ${shelves.join(", ")}`)
