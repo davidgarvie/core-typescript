@@ -13,8 +13,24 @@ const films: Film[] = [
   { title: "A Fish Called Wanda", director: "Charles Crichton", rating: 18 },
 ]
 
-function formatFilm(film: Film): string {
-  return `${film.title} (${film.rating}), directed by ${film.director}`
+function formatFilm (film: Film, index? : number): string {
+  const text = `${film.title} (${film.rating}), directed by ${film.director}`;
+  // specifically check if index is undefined because 0 is falsey
+  // you got taught this last week and didn't remember you dodo
+  return index === undefined ? text: `${index}. ${text}`;
 }
 
-// logFilms(true, films[0], films[2], films[3])
+function logFilms(showIndex: boolean, ...films: Film[]): void {
+  // this implementation assumes we are printing the index of the film in the list that is passed to the function
+  // it does not print the index of the film in the original films array defined at the top level
+  if (showIndex) {
+    films.forEach((f, i) => console.log(formatFilm(f, i)))
+  } else {
+    films.forEach((f) => console.log(formatFilm(f)))
+  }
+}
+
+console.log("Expect index to be logged");
+logFilms(true, films[0], films[2], films[3])
+console.log("Do not Expect index to be logged");
+logFilms(false, films[1])

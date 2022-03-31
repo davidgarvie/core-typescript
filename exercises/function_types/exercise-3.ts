@@ -13,9 +13,16 @@ const films: Film[] = [
   { title: "A Fish Called Wanda", director: "Charles Crichton", rating: 18 },
 ]
 
-function formatFilm1(film: Film, index?: number) {
+type FilmFormatter = (film: Film, index?: number) => string;
+
+function formatFilm1 (film: Film, index?: number) {
   const text = `${film.title} (${film.rating}), directed by ${film.director}`
-  return index !== undefined ? `${index}. ${text}` : text
+
+  // return 5 would throw a compile time errror because this function would not match the type definition of FilmFormatter
+
+  return index !== undefined
+    ? `${index}. ${text}`
+    : text
 }
 
 function formatFilm2(film: Film, index?: number): string {
@@ -23,11 +30,16 @@ function formatFilm2(film: Film, index?: number): string {
   return index !== undefined ? `${index}. ${text}` : text
 }
 
-function logFilms(showIndex: boolean, ...films: Film[]): void {
+function logFilms (formatter: FilmFormatter, showIndex: boolean, ...films: Film[]): void {
   for (let i = 0; i < films.length; i += 1) {
-    const log = showIndex ? formatFilm1(films[i], i) : formatFilm1(films[i])
+    const log = showIndex
+      ? formatter(films[i], i)
+      : formatter(films[i])
     console.log(log)
   }
 }
 
-// logFilms(formatFilm2, false, films[0], films[2], films[3])
+console.log("Using formatter 1");
+logFilms(formatFilm2, false, films[0], films[2], films[3])
+console.log("Using formatter 2");
+logFilms(formatFilm1, false, films[1])

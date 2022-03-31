@@ -14,29 +14,31 @@ const films: Film[] = [
 ]
 
 // determine first film alphabetically
-let firstFilmAlphabetically = films[0]
-for (let i = 0; i < films.length; i += 1) {
-  if (films[i].title < firstFilmAlphabetically.title) {
-    firstFilmAlphabetically = films[i]
+function getFirstFilmAlphabetically(films: Film[]) : Film {
+  let firstFilmAlphabetically = films[0];
+  for (let i = 0; i < films.length; i += 1) {
+    if (films[i].title < firstFilmAlphabetically.title) {
+      firstFilmAlphabetically = films[i]
+    }
   }
+  return firstFilmAlphabetically;
 }
 
-// get all films by Tim Burton
-const filmsByTimBurton: Film[] = []
-for (let i = 0; i < films.length; i += 1) {
-  if (films[i].director === "Tim Burton") {
-    filmsByTimBurton.push(films[i])
-  }
-}
+const firstFilmAlphabetically = getFirstFilmAlphabetically(films);
+
+
+// task 2
+const getFilmsByDirector = (films: Film[]): Film[] => films.filter(f => f.director === 'Tim Burton')
+const filmsByTimBurton = getFilmsByDirector(films);
+
+
+// task 3
+const formatFilm = ({ title, rating, director }: Film) : string  => 
+  `${title} (${rating}), directed by ${director}`
+
 
 // log the information
-console.log(
-  "First film alphabetically:",
-  `${firstFilmAlphabetically.title} (${firstFilmAlphabetically.rating}), directed by ${firstFilmAlphabetically.director}`
-)
-console.log("Films by Tim Burton:")
-for (let i = 0; i < filmsByTimBurton.length; i += 1) {
-  console.log(
-    `${films[i].title} (${films[i].rating}), directed by ${films[i].director}`
-  )
-}
+console.log('First film alphabetically:', `${firstFilmAlphabetically.title} (${firstFilmAlphabetically.rating}), directed by ${firstFilmAlphabetically.director}`)
+
+console.log('Films by Tim Burton:')
+filmsByTimBurton.forEach((f) => console.log(formatFilm(f)))
