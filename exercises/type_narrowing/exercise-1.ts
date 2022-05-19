@@ -1,9 +1,14 @@
-function toPaddedString(
-  x: number | bigint | boolean,
-  padding?: number | string
-): string {
-  // implement this function
-  return "???"
+function toPaddedString (x: number | bigint | boolean, padding?: number | string): string {
+  const inputAsString = x.toString();
+  switch(typeof padding) {
+    case "string": 
+      return `${padding} ${inputAsString}`
+    case "number": 
+      return inputAsString.padStart(padding)
+    case "undefined": 
+    default:
+      return inputAsString;
+  }
 }
 
 console.log(toPaddedString(12, 6)) // "    12"

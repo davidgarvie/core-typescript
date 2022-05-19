@@ -17,12 +17,23 @@ type TrialUser = {
   trialEnds: Date
 }
 
-const admins: Admin[] = []
+// const admins: Admin[] = []
+// for (const user of users) {
+//   if ('superAdmin' in user) {
+//     admins.push(user)
+//   }
+// }
 
-for (const user of users) {
-  if ("superAdmin" in user) {
-    admins.push(user)
-  }
-}
+// function isAdmin(user: User) : user is Admin {
+//   return "superAdmin" in user;
+// }
+
+
+// this is a compile error
+// the compiler cannot figure out the type because the inline function is opaque
+// const admins: Admin[] = users.filter(u => "superAdmin" in u);
+
+const isAdmin = (user: User): user is Admin => "superAdmin" in user;
+const admins: Admin[] = users.filter(isAdmin);
 
 console.log(displayUsers(admins))

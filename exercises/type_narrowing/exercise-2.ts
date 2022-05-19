@@ -1,5 +1,4 @@
-// @ts-nocheck - delete this comment at the start of the exercise!
-import { users } from "./users"
+import { users } from './users'
 
 type User = Admin | Subscriber | TrialUser
 
@@ -30,29 +29,35 @@ function displayTrialUser(trialUser: TrialUser): string {
   return `trial user (until ${trialUser.trialEnds.toLocaleDateString()})`
 }
 
-function displayUsers(value?: User | User[]): string {
-  const isArray = false
-  const isAdmin = false
-  const isSubscriber = false
-  const isTrialUser = false
+function displayUsers (value?: User | User[]): string {
+  // const isArray = false
+  // const isAdmin = false
+  // const isSubscriber = false
+  // const isTrialUser = false
 
-  if (isArray) {
-    return value.map(displayUsers).join("\n")
+  if (Array.isArray(value)) {
+    return value.map(displayUsers).join('\n')
   }
 
-  if (isAdmin) {
+  if (typeof value === "undefined") {
+    return 'no users'
+  }
+
+  if ("superAdmin" in value) {
     return displayAdmin(value)
   }
 
-  if (isSubscriber) {
+  if ("subscriptionType" in value) {
     return displaySubscriber(value)
   }
 
-  if (isTrialUser) {
+  // or i can also remove this last if statement check
+  if ("trialEnds" in value) {
     return displayTrialUser(value)
   }
 
-  return "no users"
+  // we need to explicitly return the string
+  return 'no users'
 }
 
 console.log(displayUsers(users))
