@@ -1,27 +1,27 @@
 export {} // empty export to ensure the compiler treats this file as a module
 
-type BookReview = {
+type Book = {
   title: string
   author: string
-  isbn: number
-  rating: number
-  comments: string
+  isbn: number  
 }
 
-type AlbumReview = {
+type Album = {
   title: string
   artist: string
   isrc: string
+}
+
+type Review = {
   rating: number
   comments: string
 }
 
-type BookOrder = {
-  title: string
-  author: string
-  isbn: number
-  quantity: number
-}
+type BookReview = Book & Review
+
+type AlbumReview = Album & Review
+
+type BookOrder = Book & { quantity: number }
 
 // ------------------------------------------------------------------------- //
 // Don't edit the code below here - this is for testing your types still     //
