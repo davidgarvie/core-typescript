@@ -10,6 +10,9 @@ class Email implements Previewable {
 
   constructor(json: string) {
     const props = JSON.parse(json)
+    if (!isEmailProps(props)) {
+      throw new Error("Provided input is not a valid email")
+    }
     this.from = props.from
     this.to = props.to
     this.subject = props.subject
@@ -25,4 +28,7 @@ const email = new Email(
   '{ "from": "cto@skillerwhale.com", "to": "ada@skillerwhale.com", "subject": "communication channels", "body": "Please stop harassing the squid, and in future address all food related questions to HR." }'
 )
 
+const messageWithNoBody = new Email('{ "from": "cto@skillerwhale.com", "to": "ada@skillerwhale.com", "subject": "communication channels"}')
+
 printPreview(email)
+printPreview(messageWithNoBody)

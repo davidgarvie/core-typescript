@@ -1,8 +1,14 @@
 type Preview = () => string
 
 // declare the Previewable interface here
+interface Previewable {
+  label: string
+  body: string;
+  preview: () => string;
+}
 
-function printPreview(message: any) {
+
+function printPreview(message: Previewable) {
   console.log(`Preview for ${message.label}:`)
   console.log(message.preview())
 }

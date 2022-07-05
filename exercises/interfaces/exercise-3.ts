@@ -1,17 +1,22 @@
-// @ts-nocheck - delete this comment at the start of the exercise!
 import { Previewable } from "./preview"
 
 type Format = "json" | "truncated"
 
 // declare the FormattedPreviewable interface here
+interface FormattedPreviewable extends Previewable {
+  format: Format;
+}
 
-class ChatMessage {
+class ChatMessage implements FormattedPreviewable {
   username: string
   body: string
+  format: Format;
+  label: string = "Chat"
 
-  constructor(username: string, body: string) {
+  constructor(username: string, body: string, format: Format) {
     this.username = username
     this.body = body
+    this.format = format;
   }
 
   preview() {
