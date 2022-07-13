@@ -22,6 +22,35 @@ class Contact {
 class Message {
   // Include static definitions here
 
+  // Using an object literal
+  // static DEFAULT_CONTACT: Contact = {
+  //   email: "orcaniser@skillerwhale.test",
+  //   phone: "+123 456 78 90",
+  //   isSubscribedToEmail: false,
+  //   isSubscribedToSMS: false
+  // }
+
+  // Initialisation with class 
+  static DEFAULT_CONTACT = new Contact(
+    "orcaniser@skillerwhale.test",
+    "+123 456 78 90",
+    false,
+    false
+  )
+
+  static buildMessages(contacts: Contact[]) : [Email, SMS]{
+    const email = new Email(
+      Message.DEFAULT_CONTACT,
+      contacts1.filter((r) => r.isSubscribedToEmail)
+    );
+    const sms = new SMS(
+      Message.DEFAULT_CONTACT,
+      contacts.filter((r) => r.isSubscribedToSMS)
+    );
+
+    return [email, sms];
+  }
+
   sender: Contact
   recipients: Contact[]
 
@@ -45,13 +74,6 @@ class SMS extends Message {
   }
 }
 
-const defaultContact = new Contact(
-  "orcaniser@skillerwhale.test",
-  "+123 456 78 90",
-  false,
-  false
-)
-
 const contacts1 = [
   new Contact("ada@plaicebook.test", "+1234560001", true, true),
   new Contact("betty@plaicebook.test", "+1234560002", true, true),
@@ -64,27 +86,8 @@ const contacts2 = [
   new Contact("", "+1234560006", false, true),
 ]
 
-const messages1 = [
-  new SMS(
-    defaultContact,
-    contacts1.filter((r) => r.isSubscribedToSMS)
-  ),
-  new Email(
-    defaultContact,
-    contacts1.filter((r) => r.isSubscribedToEmail)
-  ),
-]
-
-const messages2 = [
-  new SMS(
-    defaultContact,
-    contacts2.filter((r) => r.isSubscribedToSMS)
-  ),
-  new Email(
-    defaultContact,
-    contacts2.filter((r) => r.isSubscribedToEmail)
-  ),
-]
+const messages1 = Message.buildMessages(contacts1);
+const messages2 = Message.buildMessages(contacts2);
 
 messages1[0].preview()
 messages1[1].preview()

@@ -1,5 +1,6 @@
 export {} // empty export to ensure the compiler treats this file as a module
 
+type callback = (c: Contact) => string;
 class Contact {
   private _email: string
   private _phone: string
@@ -53,7 +54,7 @@ class Message {
   }
 
   sender: Contact
-  recipients: Contact[]
+  protected recipients: Contact[]
 
   constructor(sender: Contact, recipients: Contact[]) {
     this.sender = sender
@@ -63,10 +64,18 @@ class Message {
   preview() {
     console.log(`Message from ${this.sender}`)
   }
+
+  
+
+  // fix type
+  protected stringifyRecipients(cb: callback) : string {
+    return this.recipients.map(cb).join(",");
+  }
 }
 
 class Email extends Message {
   preview() {
+    this.stringifyRecipients(() => {})
     const emails = this.recipients.map((r) => r.email).join(",")
     console.log(`Email from ${this.sender.email} to ${emails}`)
   }

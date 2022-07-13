@@ -1,8 +1,8 @@
 export {} // empty export to ensure the compiler treats this file as a module
 
 class Contact {
-  email: string
-  phone: string
+  private email: string
+  private phone: string
   isSubscribedToEmail: boolean
   isSubscribedToSMS: boolean
 
@@ -17,14 +17,15 @@ class Contact {
     this.isSubscribedToEmail = isSubscribedToEmail
     this.isSubscribedToSMS = isSubscribedToSMS
   }
+
+  static equalTo(recipient1: Contact, recipient2: Contact): boolean {
+    return (
+      recipient1.email === recipient2.email &&
+      recipient1.phone === recipient2.phone
+    )
+  }
 }
 
-function equalTo(recipient1: Contact, recipient2: Contact): boolean {
-  return (
-    recipient1.email === recipient2.email &&
-    recipient1.phone === recipient2.phone
-  )
-}
 
 const contacts1: Contact[] = [
   new Contact("ada@plaicebook.test", "+1234560001", true, true),
@@ -38,8 +39,9 @@ const contacts2: Contact[] = [
   new Contact("", "+1234560006", false, true),
 ]
 
-contacts1[0].email = "mutated@plaicebook.test"
-contacts2[1].phone = "+100200300"
+// mutation no longer works as we have protected the properties
+// contacts1[0].email = "mutated@plaicebook.test"
+// contacts2[1].phone = "+100200300"
 
 const expected1 = new Contact("ada@plaicebook.test", "+1234560001", true, true)
 const expected2 = new Contact("bob@plaicebook.test", "", true, false)
