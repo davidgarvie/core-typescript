@@ -1,14 +1,14 @@
 export {} // empty export to ensure the compiler treats this file as a module
 
 enum Planet {
-  Mercury = "Mercury",
-  Venus = "Venus",
-  Earth = "Earth",
-  Mars = "Mars",
-  Jupiter = "Jupiter",
-  Saturn = "Saturn",
-  Uranus = "Uranus",
-  Neptune = "Neptune",
+  Mercury,
+  Venus,
+  Earth,
+  Mars,
+  Jupiter,
+  Saturn,
+  Uranus,
+  Neptune
 }
 
 enum PlanetType {
@@ -32,8 +32,15 @@ function getPlanetType(planet: Planet): PlanetType {
 }
 
 function describePlanet(planet: Planet): string {
-  return `${planet} is a ${getPlanetType(planet)}`
+  // this is a reverse mapping
+  // essentially we are saying Planet[index]
+  // It is similar to accessing an index on an object
+  return `${Planet[planet]} is a ${getPlanetType(planet)}`
 }
 
 console.log(describePlanet(Planet.Mars))
-console.log(describePlanet(Planet.Saturn))
+// console.log(describePlanet(Planet.Saturn))
+
+for (let i = 0; i < 8; i ++) {
+  console.log(describePlanet(i));
+}
