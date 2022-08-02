@@ -1,41 +1,54 @@
 export {} // empty export to ensure the compiler treats this file as a module
 
-type Message = "set-difficulty" | "add-points" | "set-game-over"
-
 const state = {
   difficulty: "easy",
   score: 0,
   gameOver: false,
 }
 
-function makeSetDifficulty(difficulty: string) {
-  return { message: "set-difficulty", value: difficulty }
+function makeSetDifficulty(difficulty: string): Action {
+  return { message: "set-difficulty", value: difficulty };
 }
 
-function makeAddPoints(points: number) {
-  return { message: "add-points", value: points }
+function makeAddPoints(points: number) : Action {
+  return { message: "add-points", value: points };
 }
 
-function makeSetGameOver(gameOver: boolean) {
-  return { message: "set-game-over", value: gameOver }
+function makeSetGameOver(gameOver: boolean) : Action {
+  return { message: "set-game-over", value: gameOver };
 }
 
-function handleAction(action: {
-  message: Message
-  value: string | number | boolean
-}): void {
+type Action = {
+  message: "set-difficulty",
+  value: string
+} | {
+  message: "add-points",
+  value: number
+} | {
+  message: "set-game-over",
+  value: boolean
+}
+
+type Message = Action["message"];
+
+// This is a compilation error
+// const badAction: Action = {
+//   message: "set-difficulty",
+//   value: true
+// }
+
+function handleAction(action: Action): void {
   switch (action.message) {
-    case "set-difficulty":
-      // @ts-ignore
-      state.difficulty = action.value
+    case "set-difficulty":;
+      state.difficulty = action.value;
       break
     case "add-points":
-      // @ts-ignore
-      state.score += action.value
+      const score = action.value;
+      state.score += score;
       break
-    case "set-game-over":
-      // @ts-ignore
-      state.gameOver = action.value
+      case "set-game-over":
+      const gameOver = action.value;
+      state.gameOver = gameOver;
       break
   }
 }

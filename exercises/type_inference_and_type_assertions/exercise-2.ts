@@ -1,4 +1,3 @@
-// @ts-nocheck - delete this comment at the start of the exercise!
 export {} // empty export to ensure the compiler treats this file as a module
 
 type Action =
@@ -9,11 +8,11 @@ type Action =
 const state = {
   difficulty: "easy",
   score: 0,
-  previousScores: [],
+  previousScores: [] as number[],
 }
 
 function handleAction(action: Action): void {
-  const warning = action.warning
+  const warning = (action as { warning?: string}).warning;
   if (warning) {
     console.warn(warning)
   }
@@ -24,7 +23,7 @@ function handleAction(action: Action): void {
       break
     case "add-points":
       state.score += action.value
-      state.previousScores.push(state.score)
+      state.previousScores.push(state.score);
       break
     case "reset-score":
       const checkpoint = 10
@@ -32,7 +31,7 @@ function handleAction(action: Action): void {
       const index = state.previousScores.findIndex((x) => x > checkpoint)
       if (index > -1) {
         // reset to that score if found
-        state.score = state.previousScores[index]
+        state.score = state.previousScores[index]!;
         // and delete all subsequent scores
         state.previousScores.splice(index + 1)
       } else {
@@ -49,7 +48,7 @@ handleAction({
   message: "set-difficulty",
   value: "hard",
   warning: "this setting is really difficult!",
-})
+} as Action)
 handleAction({ message: "add-points", value: 4 })
 handleAction({ message: "add-points", value: 5 })
 handleAction({ message: "add-points", value: 3 })
